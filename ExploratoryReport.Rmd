@@ -1,0 +1,58 @@
+
+---
+title: "Exploratory Analysis of the Tooth Growth dataset"
+author: "Andrew J. Dyck"
+output:
+  pdf_document: default
+keep_md: yes
+html_document: null
+---
+
+## Data Summary ##
+The Tooth Growth dataset includes 60 observations of tooth growth with two additional categorical variables:
+
+- Supplement Type (supp): Either VC or OJ
+- Dose (dose): Dose level of Vitamin C
+
+```{r}
+data(ToothGrowth)
+hist(ToothGrowth$len)
+aggregate(ToothGrowth$len, by=list(ToothGrowth$dose), FUN=mean)
+aggregate(ToothGrowth$len, by=list(ToothGrowth$supp), FUN=mean)
+aggregate(ToothGrowth$len, by=list(ToothGrowth$supp, ToothGrowth$dose), FUN=mean)
+```
+
+The overall distribution for tooth growth appears to be normal, with a fairly wide distribution around a mean of `r round(mean(ToothGrowth$len), 2)` and a variance of `r round(var(ToothGrowth$len), 2)`. The mean tooth growth appears to differ betwen supplement type and dose. Tests of these mean differences are explored in the following section.
+
+## Statistical Tests ##
+Starting with a confidence interval of the overall mean below, we see that 95% of observations fall in the following range:
+
+```{r}
+t.test(ToothGrowth$len)$conf.int[1:2]
+```
+
+This is interesting as we can see from the previous section that the group mean for some combinations of Supplement method and dose are outside of this range.
+
+For example, let's investigate 95% confidence intervals for the vitamin C dose:
+
+```{r}
+t.test(ToothGrowth[which(ToothGrowth$dose==0.5), 'len'])$conf.int[1:2]
+t.test(ToothGrowth[which(ToothGrowth$dose==1.0), 'len'])$conf.int[1:2]
+t.test(ToothGrowth[which(ToothGrowth$dose==2.0), 'len'])$conf.int[1:2]
+```
+
+The 95% confidence interval for doses of 0.5 is entirely below the confidence interval for the entire sample. Similarly, the 95% confidence interval for doses of 2.0 is entirely above the interval on the full sample. It appears that there may be something to the Vitamin C dose that affects tooth growth, but further analysis is required.
+
+Next, let's consider a T-test to test the hypothesis that the mean tooth growth is the same between supplement methods:
+
+```{r}
+t.test(ToothGrowth[which(ToothGrowth$supp=='OJ'), 'len'],
+       ToothGrowth[which(ToothGrowth$supp=='VC'), 'len'])
+```
+
+With this sample size, we get a p-value of 0.06 for this T-test, so we cannot say that there is a statistical difference between the OJ and VC delivery methods at the $\alpha = 0.05$ level of confidence. It appears that the supplement method doesn't make a difference in tooth growth
+
+## Conclusion ##
+In conclusion, it appears from the data collected in the ToothGrowth dataset, that tooth growth in Guinea Pigs is affected by the dose of Vitamin C and that the supplement method doesn't make much difference at all. 
+
+The assumptions that are required for this analysis are that the population data does indeed follow a normal distribution. If this assumption is not true, then the application of the T-test would be inappropriate for the analysis here. Additionally, I've assumed here that the sample size of 60 guinea pigs is sufficient to make the claims in the paragraph above. In fact, with a p-value on the supplement method of 0.06, it's likely that if the sample size were to be increased, I may be able to comment on the difference between supplement methods from a statistical perspective with more conviction.
