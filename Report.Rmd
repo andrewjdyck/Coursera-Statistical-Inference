@@ -9,7 +9,12 @@ output:
 ---
 
 ## Overview ##
-A course project for the Coursera Statistical Inference course
+A course project for the Coursera Statistical Inference course. The following report is organized into the following sections:
+
+1. Simulations
+2. Sample Mean Vs. Theoretical Mean
+3. Sample Variance Vs. Theoretical Variance
+4. Simulation Distributions
 
 ## Simulations ##
 In the following simulation exercise, we'll explore sample error by simulating 40 draws from the exponential distribution. Throughout the exercise we'll use $\lambda = 0.2$ when drawing from the distribution.
@@ -43,7 +48,7 @@ Similar to the investigation above, we can take a look at how sample variance co
 
 Again, in a similar fashion to how we investigated the mean above via simulation, we can see that as we take random draws from the same distribution, the average sample variance approaches the theoretical variance. After 1000 loops through our simulation exercise, the average sample variance is `r round(mean(ExponentialVarianceSimulations), 2)` compared to the theoretical variance of `r TheoreticalVariance` -- much closer than a single sample. 
 
-## Distribution ##
+## Simulation Distributions ##
 This exercise provides some insight into how the CLT works in practise. As we increase sample size, for example from 40 to 1000, we can expect the sample distribution to approach the theoretical exponential distribution. For example, consider the image below with N=40 and N=1000.
 
 ```{r, fig.height=4}
