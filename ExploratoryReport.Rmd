@@ -15,7 +15,7 @@ The Tooth Growth dataset includes 60 observations of tooth growth with two addit
 - Supplement Type (supp): Either VC or OJ
 - Dose (dose): Dose level of Vitamin C
 
-```{r}
+```{r, fig.height=3}
 data(ToothGrowth)
 hist(ToothGrowth$len)
 aggregate(ToothGrowth$len, by=list(ToothGrowth$dose), FUN=mean)
@@ -38,7 +38,6 @@ This is interesting as we can see from the previous section that the group mean 
 For example, let's investigate 95% confidence intervals for the vitamin C dose (This is just exploratory at this point and I draw no conclusions):
 
 ```{r}
-t.test(ToothGrowth[which(ToothGrowth$dose==0.5), 'len'])$conf.int[1:2]
 t.test(ToothGrowth[which(ToothGrowth$dose==1.0), 'len'])$conf.int[1:2]
 t.test(ToothGrowth[which(ToothGrowth$dose==2.0), 'len'])$conf.int[1:2]
 ```
