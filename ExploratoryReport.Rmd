@@ -1,11 +1,12 @@
 
 ---
-title: "Exploratory Analysis of the Tooth Growth dataset"
-author: "Andrew J. Dyck"
-output:
-  pdf_document: default
-keep_md: yes
 html_document: null
+author: "Andrew J. Dyck"
+keep_md: yes
+output:
+  html_document: default
+  pdf_document: default
+title: "Exploratory Analysis of the Tooth Growth dataset"
 ---
 
 ## Data Summary ##
@@ -33,7 +34,8 @@ t.test(ToothGrowth$len)$conf.int[1:2]
 
 This is interesting as we can see from the previous section that the group mean for some combinations of Supplement method and dose are outside of this range.
 
-For example, let's investigate 95% confidence intervals for the vitamin C dose:
+### Dose ###
+For example, let's investigate 95% confidence intervals for the vitamin C dose (This is just exploratory at this point and I draw no conclusions):
 
 ```{r}
 t.test(ToothGrowth[which(ToothGrowth$dose==0.5), 'len'])$conf.int[1:2]
@@ -41,8 +43,19 @@ t.test(ToothGrowth[which(ToothGrowth$dose==1.0), 'len'])$conf.int[1:2]
 t.test(ToothGrowth[which(ToothGrowth$dose==2.0), 'len'])$conf.int[1:2]
 ```
 
-The 95% confidence interval for doses of 0.5 is entirely below the confidence interval for the entire sample. Similarly, the 95% confidence interval for doses of 2.0 is entirely above the interval on the full sample. It appears that there may be something to the Vitamin C dose that affects tooth growth, but further analysis is required.
+The 95% confidence interval for doses of 0.5 is entirely below the confidence interval for the entire sample. Similarly, the 95% confidence interval for doses of 2.0 is entirely above the interval on the full sample. It appears that there may be something to the Vitamin C dose that affects tooth growth, but further analysis is required. 
 
+Again, this is exploratory at this point and no direct conclusions are drawn. So, let's try a two-sided T-test of dose to see if a doubling of the dose from 1.0 to 2.0 results in a significant change in tooth growth. The test here is that the difference in means is equal to zero (the null hypothesis). We specify that the alternate hypothesis is that the tooth growth is greater when dose is 2.0.
+
+```{r}
+t.test(ToothGrowth[which(ToothGrowth$dose==1.0), 'len'], 
+       ToothGrowth[which(ToothGrowth$dose==2.0), 'len'],
+       alternative = 'l')
+```
+
+It seems that we can concluded that average tooth growth is indeed higher with a dose of 2.0 compared to 1.0.
+
+### Supplement method ###
 Next, let's consider a T-test to test the hypothesis that the mean tooth growth is the same between supplement methods:
 
 ```{r}

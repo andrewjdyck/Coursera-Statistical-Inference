@@ -41,7 +41,7 @@ After a single 40 random draw sample of the exponential distribution, the mean o
 
 A random draw of 40 observations is a fairly small sample, and this is the main reason that this sample mean differs from the theoretical mean. 
 
-After taking the mean of 1000 draws of 40 observations from the exponential distribution, the average mean is `r round(mean(ExponentialMeanSimulations), 2)`, compared to the theoretical mean of `r TheoreticalMean`. Our sample mean is now much closer to the theoretical mean.
+After taking the mean of 1000 draws of 40 observations from the exponential distribution, the average mean is `r round(mean(ExponentialMeanSimulations), 2)`, compared to the theoretical mean of `r TheoreticalMean`. 
 
 ## Sample Variance Vs. Theoretical Variance ##
 Similar to the investigation above, we can take a look at how sample variance compares to the theoretical variance. In the single sample of 40 observations, the variance is `r round(var(SingleSample), 2)`, compared to the theoretical variance of `r TheoreticalVariance`.
@@ -49,7 +49,7 @@ Similar to the investigation above, we can take a look at how sample variance co
 Again, in a similar fashion to how we investigated the mean above via simulation, we can see that as we take random draws from the same distribution, the average sample variance approaches the theoretical variance. After 1000 loops through our simulation exercise, the average sample variance is `r round(mean(ExponentialVarianceSimulations), 2)` compared to the theoretical variance of `r TheoreticalVariance` -- much closer than a single sample. 
 
 ## Simulation Distributions ##
-This exercise provides some insight into how the CLT works in practise. As we increase sample size, for example from 40 to 1000, we can expect the sample distribution to approach the theoretical exponential distribution. For example, consider the image below with N=40 and N=1000.
+This exercise provides some insight into how the CLT works in practise. As we increase sample size, for example from 40 to 1000, we can expect the sample distribution to approach the theoretical exponential distribution, while the distribution of sample means is normally distributed. For example, consider the image below with N=40 and N=1000, which shows the exponential distribution.
 
 ```{r, fig.height=4}
 par(mfrow=c(1,2))
@@ -57,7 +57,7 @@ hist(rexp(40, lambda), main='Exponential Sample (N=40)')
 hist(rexp(1000, lambda), main='Exponential Sample (N=1000)')
 ```
 
-Now, consider the distribution of the average of the sample mean and variance as simulated in part one of this document below. A blue reference line displaying the standard normal density is used to show that the distribution of sample means and variances are approximately normal.
+Now, consider the distribution of the average of the sample mean and variance as simulated in part one of this document below. A blue reference line displaying the standard normal density is used to show that the distribution of sample means is approximately normal while the distribution of sample variances is not normally distributed. In fact, the distributions of sample variances is theoretically distributed as $\chi^2$.
 
 ```{r, fig.height=4}
 par(mfrow=c(1,2))
